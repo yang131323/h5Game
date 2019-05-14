@@ -2,12 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="./css/index.css">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>OneStroke | 一笔画游戏</title>
 </head>
 <body>
+  <div class="game-container">
+    <header class="game-header">
+      <img src="./css/return.png" alt="返回" width="24px" height="24px" id="return-icon">
+      <h3>@isQ | 一笔画</h3>
+    </header>
+    <ul id="game-level" style="display: none;">
+      <li><span class="level-li">第一关</span></li>
+      <li><span class="level-li">第二关</span></li>
+      <li><span class="level-li">第三关</span></li>
+      <li><span class="level-li">第四关</span></li>
+      <li><span class="level-li">第五关</span></li>
+      <li><span class="level-li">第六关</span></li>
+      <li><span class="level-li">第七关</span></li>
+      <li><span class="level-li">第八关</span></li>
+    </ul>
+    <div id="game-level-one">
+      <canvas id="one-canvas" width="360px" height="580px"></canvas>
+    </div>
+    <!-- <div id="game-level-two"></div>
+    <div id="game-level-three"></div>
+    <div id="game-level-four"></div>
+    <div id="game-level-five"></div>
+    <div id="game-level-six"></div> -->
+  </div>
   <script src="./js/index.js"></script>
 </body>
 </html>
