@@ -1,4 +1,5 @@
-const currentPage = 'level';
+// let curLevel = '';
+let isRestart = false;
 
  window.onhashchange = function hashChange (e) {
   let oldVal = e.oldURL.split('#');
@@ -20,12 +21,13 @@ const currentPage = 'level';
 }
 
 function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', strColor = allLevel[level]['strColor'], fillColor = allLevel[level]['fillColor']) {
+  curLevel = level;
   let startX = 0;
   let startY = 0;
   let isEnter = false;
   let isNext = false;
   let isClick = false;
-  const currentLevel = Object.assign({}, allLevel[level]);
+  let currentLevel = JSON.parse(JSON.stringify(allLevel[level]));
   let compleleLine = [];
   const dom = document.getElementById(id);
   const container = document.getElementById(con);
@@ -108,7 +110,6 @@ function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', str
 
   function isKeepDown (x, y, lineS, lineE) {
     let result = false;
-    // console.log(x, y, lineS, lineE);
     if (startX === lineS[0] && startY === lineS[1] && Math.abs(x - lineE[0]) <= 10 && Math.abs(y - lineE[1]) <= 10) {
       compleleLine.push([[startX, startY], [lineE[0], lineE[1]]]);
       startX = lineE[0];
@@ -163,9 +164,23 @@ function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', str
     }
   }
 
+  function restart () {
+    console.log('re start')
+    ctx.clearRect(0, 0, 360, 640);
+    currentLevel = JSON.parse(JSON.stringify(allLevel[level]));
+    compleleLine = [];
+    dom.onmousemove = null;
+    isClick = false;
+    isRestart = false;
+  }
+
   function draw (e) {
     const tempX = e.pageX - conLeft;
     const tempY = e.pageY - conTop;
+    if (isRestart) {
+      restart();
+      return;
+    }
     ctx.restore();
     ctx.save();
     ctx.clearRect(0, 0, 360, 640);
@@ -218,16 +233,15 @@ function initGame (level = 'game-level', canvas = 'game-level-one') {
   const CANVAS = document.getElementById(canvas);
   LEVEL.style.display = 'block';
   CANVAS.style.display = 'none';
-
   LEVEL.onclick = function selectLevel (e) {
     const target = e.target;
     if (!target.closest('li')) { return; }
     window.location.href = curUrl[0] + '#/' + ALLURL[target.innerText];
   }
-
   document.getElementById('return-icon').onclick = function backUp () {
     window.location.href = curUrl[0];
   }
+  document.getElementById('re-start').onclick = () => { isRestart = true; }
 }
 
 initGame();
