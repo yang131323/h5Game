@@ -18,6 +18,20 @@ body, html {
   user-select: none;
 }
 
+@media screen and (max-width: 768px) {
+  .game-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  body, html {
+    background: #fff;
+  }
+}
+
 .game-header {
   line-height: 40px;
   width: 100%;
