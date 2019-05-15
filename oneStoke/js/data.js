@@ -1,14 +1,36 @@
 const mapPage = {
   'level': 'game-level',
   'one': 'game-level-one',
-  'two': 'game-level-two',
-  'three': 'game-level-three',
-  'four': 'game-level-four',
-  'five': 'game-level-five',
-  'six': 'game-level-six',
-  'seven': 'game-level-seven',
-  'eight': 'game-level-eight',
+  'two': 'game-level-one',
+  'three': 'game-level-one',
+  'four': 'game-level-one',
+  'five': 'game-level-one',
+  'six': 'game-level-one',
+  'seven': 'game-level-one',
+  'eight': 'game-level-one',
 };
+
+const NEXTLEVEL = {
+  'one': 'two',
+  'two': 'three',
+  'three': 'four',
+  'four': 'five',
+  'five': 'six',
+  'six': 'seven',
+  'seven': 'eight',
+  'eight': '',
+}
+
+const ALLURL = {
+  '第一关': 'one',
+  '第二关': 'two',
+  '第三关': 'three',
+  '第四关': 'four',
+  '第五关': 'five',
+  '第六关': 'six',
+  '第七关': 'seven',
+  '第八关': 'eight',
+}
 
 const allLevel = {
   'one': {
@@ -19,7 +41,7 @@ const allLevel = {
   },
   'two': {
     strColor: '#795548',
-    fillColor: '#ec407a',
+    fillColor: '#e91e63',
     point: [[180, 113], [33, 445], [180, 445], [327, 445]],
     line: [[[180, 113], [33, 445]], [[180, 113], [180, 445]], [[180, 113], [327, 445]], [[33, 445], [180, 445]], [[180, 445], [327, 445]]]
   },
@@ -54,8 +76,8 @@ const allLevel = {
     line: [[[115, 150], [250, 150]], [[115, 150], [46, 287]], [[115, 150], [320, 353]], [[46, 287], [320, 353]], [[250, 150], [46, 353]], [[250, 150], [320, 287]], [[46, 353], [320, 287]]]
   },
   'eight': {
-    strColor: '',
-    fillColor: '',
+    strColor: '#004d40',
+    fillColor: '#80cbc4',
     point: [[87, 135], [274, 135], [38, 230], [180, 230], [322, 230], [38, 325], [85, 325], [275, 325], [322, 325], [87, 418], [277, 418]],
     line: [[[87, 135], [274, 135]], [[87, 135], [38, 230]], [[87, 135], [180, 230]], [[274, 135], [322, 230]], [[274, 135], [180, 230]], [[38, 230], [85, 325]], [[180, 230], [38, 325]], [[180, 230], [322, 325]], [[322, 230], [275, 325]], [[38, 325], [87, 418]], [[85, 325], [277, 418]], [[275, 325], [87, 418]], [[322, 325], [277, 418]]]
   },

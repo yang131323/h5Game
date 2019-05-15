@@ -3,13 +3,23 @@ const currentPage = 'level';
  window.onhashchange = function hashChange (e) {
   let oldVal = e.oldURL.split('#');
   let newVal = e.newURL.split('#');
-  oldVal = oldVal.length > 1 ? oldVal[oldVal.length - 1] : 'level';
-  newVal = newVal.length > 1 ? newVal[newVal.length - 1] : 'level';
-  document.getElementById(mapPage[oldVal]).style.display = 'none';
-  document.getElementById(mapPage[newVal.substr(1)]).style.display = 'block';
+  oldVal = oldVal.length > 1 ? oldVal[oldVal.length - 1].substr(1) : 'level';
+  newVal = newVal.length > 1 ? newVal[newVal.length - 1].substr(1) : 'level';
+  if (!mapPage[newVal]) {
+    window.location.href = newVal[0];
+    return;
+  }
+  if (oldVal === 'level' || newVal === 'level') {
+    document.getElementById(mapPage[oldVal]).style.display = 'none';
+    document.getElementById(mapPage[newVal]).style.display = 'block';
+  }
+  if (newVal !== 'level') {
+    oneLevel(newVal);
+    document.getElementById('game-title').innerText = newVal + ' Level';
+  }
 }
 
-function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', strColor = '#03a9f4', fillColor = '#689f38') {
+function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', strColor = allLevel[level]['strColor'], fillColor = allLevel[level]['fillColor']) {
   let startX = 0;
   let startY = 0;
   let isEnter = false;
@@ -23,16 +33,14 @@ function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', str
   const conTop = container.getBoundingClientRect().top;
   let ctx = null;
 
-  dom.ondbclick = () => { return false }
-
-  dom.style.background= `url("./css/${level}.png") no-repeat`;
+  dom.style.background = `url("./css/${level}.png") no-repeat`;
 
   function initGraph () {
     ctx = dom.getContext('2d');
     ctx.lineCap = 'round';
     ctx.lineWidth = 10;
     ctx.strokeStyle = strColor;
-    ctx.fillStyle = fillColor; // 
+    ctx.fillStyle = fillColor;
     const point = currentLevel['point'];
     const line = currentLevel['line'];
     ctx.beginPath();
@@ -138,11 +146,18 @@ function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', str
   }
 
   function nextLevel () {
-    console.log(currentLevel)
     if (currentLevel['line'].length <= 0) {
-      setTimeout(() => { 
+      setTimeout(() => {
         isNext = confirm('congratulation you win ' + level + 'Level!');
         console.log('is next level: ' + isNext);
+        let urlArr = window.location.href.split('#');
+        const next = NEXTLEVEL[urlArr[1].substr(1)];
+        if (next) {
+          isNext ? (window.location.href = urlArr[0] + '#/' + next) && ctx.clearRect(0, 0, 360, 580) : ''; 
+        } else {
+          alert('You win pass all Level!');
+          window.location.href = window.location.href.split('#')[0].toString();
+        }
       }, 500);
       dom.onmousemove = null;
     }
@@ -185,7 +200,7 @@ function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', str
   }
 
   dom.onmousedown = function (e) {
-    // ctx.save();
+    ctx.save();
     const isValid = judgeValid(e.pageX - conLeft, e.pageY - conTop);
     if (isClick || isValid['end']) { return; }
     isClick = true;
@@ -196,4 +211,24 @@ function oneLevel (level = 'one', id = 'one-canvas', con = 'game-level-one', str
   }
 }
 
-oneLevel();
+function initGame (level = 'game-level', canvas = 'game-level-one') {
+  const curUrl = document.location.href.split('#');
+  if (curUrl.length > 1) { document.location.href = curUrl[0]; }
+  const LEVEL = document.getElementById(level);
+  const CANVAS = document.getElementById(canvas);
+  LEVEL.style.display = 'block';
+  CANVAS.style.display = 'none';
+
+  LEVEL.onclick = function selectLevel (e) {
+    const target = e.target;
+    if (!target.closest('li')) { return; }
+    window.location.href = curUrl[0] + '#/' + ALLURL[target.innerText];
+  }
+
+  document.getElementById('return-icon').onclick = function backUp () {
+    window.location.href = curUrl[0];
+  }
+}
+
+initGame();
+// oneLevel();
